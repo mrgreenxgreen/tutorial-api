@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.Tutorial;
+import com.example.demo.entity.Tutorial;
 import com.example.demo.repository.TutorialRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin(origins = "http://localhost:8081")
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/api")
 public class TutorialController{
@@ -25,9 +25,9 @@ public class TutorialController{
             List<Tutorial> tutorials = new ArrayList<Tutorial>();
 
             if (title == null)
-                tutorialRepository.findAll().forEach(tutorials::add);
+                tutorials.addAll(tutorialRepository.findAll());
             else
-                tutorialRepository.findByTitleContaining(title).forEach(tutorials::add);
+                tutorials.addAll(tutorialRepository.findByTitleContaining(title));
 
             if (tutorials.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
